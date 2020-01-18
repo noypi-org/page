@@ -31,4 +31,4 @@ keywords: noypi, pinoy
   </form>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js"></script>
-<script>var input = document.getElementByTagName('input'), btcphp = input.item(0).value, btc = item.item(1).value, php = input.item(2).value, price = input.item(3).value; fetch('https://quote.coins.ph/v1/markets?region=ph').then(res => res.json()).then(res => {btcphp = res['markets'][8]['bid']; price = (btcphp * btc).toFixed(2)); if( price >= php ){Swal.fire(`Target Price Reached! ${price}`)}})</script>
+<script>var input = document.getElementsByTagName('input'), btcphp = input.item(0), btc = input.item(1), php = input.item(2), price = input.item(3); fetch('https://quote.coins.ph/v1/markets?region=ph').then(res => res.json()).then(res => { btcphp.value = (res['markets'][8]['bid']).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); btc.value=1; price.value = (btcphp.value * btc.value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); if( price.value >= php.value ){ Swal.fire(`Target Price Reached! ${price.value}`); } });</script>
