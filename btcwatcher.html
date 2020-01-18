@@ -6,29 +6,43 @@ description: we create free apps for the community
 keywords: noypi, pinoy
 ---
 <link href="https://fonts.googleapis.com/css?family=Bowlby+One+SC&display=swap" rel="stylesheet">
-<div class="content" style="font-family: 'Bowlby One SC', cursive;">
+<div class="column is-halfis-offset-one-quarter">
+<div class="content" style="font-family: 'Bowlby One SC', cursive;width:400px;">
   <form action="#" id="forma" method="POST">
-    <div class="field">
+    <div class="field has-addons">
+      <div class="control">
+        <a class="button is-static">BTC/PHP</a>
+      </div>
       <div class="control">
         <input type="text" class="input is-large" name="btcphp" value="0.00">
       </div>
     </div>
     <div class="field">
       <div class="control">
-        <input type="text" class="input is-large" name="btc" value="Your BTC Holding">
+        <a class="button is-static">BTC Holding</a>
+      </div>
+      <div class="control">
+        <input type="text" class="input is-large" name="btc" value="0.00">
       </div>
     </div>
     <div class="field">
       <div class="control">
-        <input type="text" class="input is-large" name="php" value="Your Target Price">
+        <a class="button is-static">Target Price</a>
+      </div>
+      <div class="control">
+        <input type="text" class="input is-large" name="php" value="0.00">
       </div>
     </div>
     <div class="field">
+      <div class="control">
+        <a class="button is-static">Current Value</a>
+      </div>
       <div class="control">
         <input type="text" class="input is-large" name="price" value="0.00">
       </div>
     </div>
   </form>
 </div>
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js"></script>
-<script>var input = document.getElementsByTagName('input'), btcphp = input.item(0), btc = input.item(1), php = input.item(2), price = input.item(3); fetch('https://quote.coins.ph/v1/markets?region=ph').then(res => res.json()).then(res => { btcphp.value = (res['markets'][8]['bid']).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); btc.value=1; price.value = (btcphp.value * btc.value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); if( price.value >= php.value ){ Swal.fire(`Target Price Reached! ${price.value}`); } });</script>
+<script>var input = document.getElementsByTagName('input'), btcphp = input.item(0), btc = input.item(1), php = input.item(2), price = input.item(3); fetch('https://quote.coins.ph/v1/markets?region=ph').then(res => res.json()).then(res => { btcphp.value = Number(res['markets'][8]['bid']).toFixed(2).replace(/\d(?=(\d{3})+.)/g, '$&,'); price.value = (btcphp.value * btc.value).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'); if( price.value >= php.value ){ Swal.fire(`Target Price Reached! ${price.value}`); } });</script>
