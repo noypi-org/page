@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="A simple BTC target price watcher">
+  <meta name="keywords" content="bitcoin, btc">
+  <meta property="og:title" content="bitcoin target price watcher">
+  <meta property="og:description" content="A simple BTC target price watcher">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://lh3.googleusercontent.com/d/1alQU-e-BMrgwI49A7Fh6NJIU7aewgpo0=s200">
+  <title>Bitcoin TP Watch</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1alQU-e-BMrgwI49A7Fh6NJIU7aewgpo0=s32">
+  <link href="https://fonts.googleapis.com/css?family=Bowlby+One+SC&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js"></script>
+</head>
+<body style="font-family: 'Bowlby One SC', cursive;">
+
+<div style="text-align:center;border-bottom:4px solid #112244;margin-bottom:2em;">
+  <img src="https://lh3.googleusercontent.com/d/1alQU-e-BMrgwI49A7Fh6NJIU7aewgpo0=s200" style="margin:10px;">
+</div>
+
+<div class="container" style="margin-bottom:100px;">
+  <div class="content">
+    <div class="tags is-centered"><span class="tag is-dark" id="btc">BITCOIN</span> <span class="tag is-dark" id="price">TARGET PRICE</span> <span class="tag is-dark" id="php">VALUE</span></div>
+    <div id="btcphp" style="font-size:50px;text-align:center;">BTCPHP0.00</div>
+    <div class="tags is-centered"><span class="tag is-light" id="setup">SETUP</span></div>
+  </div>
+</div>
+
+<footer style="position:fixed;bottom:0;left:0;right:0;background:#333;padding:10px;">
+  <p style="text-align:center;color:#fff;">developed by <a href="https://noypi.org" style="color:#fff;">noypi</a></p>
+</footer>
+
+<script>const peso = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'PHP', minimumFractionDigits: 2 }), bitcoin = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'BTC', minimumFractionDigits: 8 }), input = document.getElementsByTagName('input'), btc_tag = document.getElementById('btc'), php_tag = document.getElementById('php'), price_tag = document.getElementById('price'); var btc = 0, php = 0.00, btcphp = 0.00, price = 0.00, refresh = 60, market = function() { fetch('https://quote.coins.ph/v1/markets?region=ph',{headers: {'origin':'https://app.coins.ph', 'referer':'https://app.coins.ph/'}}).then(res => res.json()).then(res => { var mkt = res['markets'][8]; refresh = mkt['expires_in_seconds']; btcphp = mkt['bid']; document.getElementById('btcphp').innerText = peso.format(btcphp); tags(); setTimeout(market, refresh * 1000); }); console.log(`market refresh in ${refresh} seconds`); }, tags = function(){ btc = /\d/.test(btc) ? btc : 0; php = /\d/.test(php) ? php : 0; price = /\d/.test(price) ? price : 0; btc_tag.innerText = bitcoin.format(btc); price_tag.innerText = peso.format(price); php_tag.innerText = peso.format(btcphp * btc);}; market(); document.getElementById('setup').addEventListener('click', function() { Swal.mixin({input:'text', progressSteps: ['1','2'] }).queue([{title: 'Step 1', text: `Input Your BTC Holdings, Currently @ ${btc_tag.innerText}`},{title:'Step 2', text: `Input Your Target Price, Currently @ ${price_tag.innerText}`}]).then((result) => { if( result.value ) { [btc,price] = JSON.parse(JSON.stringify(result.value));tags();}});});</script>
+</body>
+</html>
